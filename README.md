@@ -36,4 +36,5 @@ for each of the playbooks converted.
 * Then, set the desired fact values for the adversary.
 * If necessary, do the same with rules and relationships.
 
-The profile is now ready for use within an operation.
+The profile is now ready for use within an operation. Note that manual commands must be completed by
+the user manually.
