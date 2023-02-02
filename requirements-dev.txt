@@ -1,8 +1,0 @@
-tox
-pytest
-pytest-aiohttp==1.0.3
-coverage
-pre-commit
-safety
-bandit
-dnspython==2.1.0
