@@ -1,0 +1,163 @@
+{
+    "id": "Playbook UUID-001",
+    "name": "Incident Responder 1",
+    "description": "Playbook Implementing Cacao Profile: Incident Responder",
+    "playbook_variables": {},
+    "workflow_start": "step-uuid001",
+    "workflow": {
+        "step-uuid001": {
+            "type": "start",
+            "name": "Start Step",
+            "description": "Start the Operation",
+            "on_completion": "step-uuid002"
+        },
+        "step-uuid002": {
+            "type": "single",
+            "name": "Find unauthorised processes",
+            "description": "Search for processes which should not be on the host",
+            "timeout": 60,
+            "on_completion": "step-uuid003",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "ps aux | grep -v grep | grep #{remote.port.unauthorized} | awk '{print $2}'" 
+                }
+            ]
+        },
+        "step-uuid003": {
+            "type": "single",
+            "name": "Find atypical open ports",
+            "description": "Compare open ports against a known baseline",
+            "timeout": 60,
+            "on_completion": "step-uuid004",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "" 
+                }
+            ]
+        },
+        "step-uuid004": {
+            "type": "single",
+            "name": "Acquire Suspcious Files",
+            "description": "Get information from AV about suspicious files",
+            "timeout": 60,
+            "on_completion": "step-uuid005",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "" 
+                }
+            ]
+        },
+        "step-uuid005": {
+            "type": "single",
+            "name": "Suspicious URLs in mail",
+            "description": "Finds suspicious URLs in received mail",
+            "timeout": 60,
+            "on_completion": "step-uuid006",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid006": {
+            "type": "single",
+            "name": "Hunt for known suspicious files",
+            "description": "Use hash of known suspicious file to find instances of said file on hosts",
+            "timeout": 60,
+            "on_completion": "step-uuid007",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid007": {
+            "type": "single",
+            "name": "Kill Rogue Processes",
+            "description": "Force kill any unauthorized processes",
+            "timeout": 60,
+            "on_completion": "step-uuid008",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid008": {
+            "type": "single",
+            "name": "Enable Inbound TCP/UDP firewall rule",
+            "description": "Blocks inbound TCP and UDP traffic on a specific port",
+            "timeout": 60,
+            "on_completion": "step-uuid009",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid009": {
+            "type": "single",
+            "name": "Enable Outbound TCP/UDP firewall rule",
+            "description": "Blocks outbound TCP and UDP traffic on a specific port",
+            "timeout": 60,
+            "on_completion": "step-uuid010",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid010": {
+            "type": "single",
+            "name": "Delete known suspicious files",
+            "description": "Use hash of known suspicious file to find instances of said file, and delete instances",
+            "timeout": 60,
+            "on_completion": "step-uuid011",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid011": {
+            "type": "single",
+            "name": "Inoculate C2",
+            "description": "Reroute suspicious IP addresses to localhost by editing hosts file",
+            "timeout": 60,
+            "on_completion": "step-uuid012",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid012": {
+            "type": "single",
+            "name": "Search for PowerShell ExecutionPolicy Bypass (elastic)",
+            "description": "Search for Sysmon Event 1 powershell records with 'ExecutionPolicy' and 'Bypass'",
+            "timeout": 60,
+            "on_completion": "step-uuid013",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid013": {
+            "type": "end",
+            "name": "End Step",
+            "description": "Final step for playbook"
+        }
+    }
+}

