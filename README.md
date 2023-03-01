@@ -12,6 +12,7 @@ git clone https://github.com/davidojeabulu/caldera-cacao-importer.git --recursiv
 
 ## Conversion of playbook
 
+Ensure that the Caldera server is off at the time of conversion, otherwise, the generated profile won't be loaded into Caldera.
 Ensure the path to playbook is not in a subdirectory of the caldera directory named 'playbooks' as
 the updated playbooks will be stored here.
 
